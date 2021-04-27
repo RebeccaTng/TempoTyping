@@ -12,5 +12,5 @@ public class Gamemode extends AppCompatActivity {
         setContentView(R.layout.activity_gamemode);
     }
 
-    //Rebecca was here
+    //Rebecca was not here
 }

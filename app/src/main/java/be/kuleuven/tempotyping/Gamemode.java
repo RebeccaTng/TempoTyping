@@ -11,4 +11,6 @@ public class Gamemode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gamemode);
     }
+
+    //Rebecca was here
 }

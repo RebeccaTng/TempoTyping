@@ -9,10 +9,37 @@
 
     <TextView
         android:id="@+id/toType"
-        android:layout_width="300dp"
+        android:layout_width="330dp"
         android:layout_height="200dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/back"
+        android:padding="10dp"
         android:text="@string/totype"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="@string/type_here"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/toType"
+        app:layout_constraintStart_toStartOf="@+id/toType"
+        app:layout_constraintTop_toBottomOf="@+id/toType"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/_0_00"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

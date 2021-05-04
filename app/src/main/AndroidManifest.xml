@@ -3,13 +3,14 @@
     package="be.kuleuven.tempotyping">
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TempoTyping">
-        <activity android:name=".Summary"></activity>
+        android:theme="@style/Theme.TempoTyping"
+        android:fullBackupContent=""
+        android:allowBackup="true">
+        <activity android:name=".Summary" />
         <activity android:name=".Gamemode" />
         <activity android:name=".Leaderboards" />
         <activity android:name=".Play" />

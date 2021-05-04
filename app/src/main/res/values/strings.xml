@@ -4,8 +4,10 @@
     <string name="keyboard_smash">Keyboard Smash</string>
     <string name="back">Back</string>
     <string name="play">Play</string>
-    <string name="leaderboard">Leaderboard</string>
+    <string name="leaderboards">Leaderboards</string>
     <string name="totype">toType</string>
     <string name="logo">logo</string>
     <string name="logo2">logo2</string>
+    <string name="type_here">Type here</string>
+    <string name="_0_00">0:00</string>
 </resources>

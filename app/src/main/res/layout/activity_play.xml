@@ -13,6 +13,7 @@
         android:layout_height="72dp"
         android:layout_marginBottom="32dp"
         android:backgroundTint="#989898"
+        android:onClick="goGamemode"
         android:text="@string/regular"
         android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@+id/keyboardSmash"
@@ -25,13 +26,14 @@
         android:layout_width="305dp"
         android:layout_height="72dp"
         android:backgroundTint="#989898"
+        android:onClick="goGamemode"
         android:text="@string/keyboard_smash"
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.613" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <Button
         android:id="@+id/back"
@@ -39,6 +41,7 @@
         android:layout_height="72dp"
         android:layout_marginTop="144dp"
         android:backgroundTint="#989898"
+        android:onClick="goHomescreen"
         android:text="@string/back"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"

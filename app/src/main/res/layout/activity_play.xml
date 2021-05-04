@@ -4,6 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#665BDCC2"
     tools:context=".Play">
 
+    <Button
+        android:id="@+id/regular"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#989898"
+        android:text="@string/regular"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/keyboardSmash"
+        app:layout_constraintEnd_toEndOf="@+id/keyboardSmash"
+        app:layout_constraintStart_toStartOf="@+id/keyboardSmash" />
+
+    <Button
+        android:id="@+id/keyboardSmash"
+        android:layout_width="305dp"
+        android:layout_height="72dp"
+        android:backgroundTint="#989898"
+        android:text="@string/keyboard_smash"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="#989898"
+        android:text="@string/back"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keyboardSmash" />
 </androidx.constraintlayout.widget.ConstraintLayout>

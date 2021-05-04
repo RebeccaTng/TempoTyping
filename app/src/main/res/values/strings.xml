@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">TempoTyping</string>
+    <string name="regular">Regular</string>
+    <string name="keyboard_smash">Keyboard Smash</string>
+    <string name="back">Back</string>
     <string name="play">Play</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="logo">logo</string>
+    <string name="totype">toType</string>
 </resources>

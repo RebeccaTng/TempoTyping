@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TempoTyping</string>
+    <string name="play">Play</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>

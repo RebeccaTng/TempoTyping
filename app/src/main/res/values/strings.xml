@@ -5,6 +5,7 @@
     <string name="back">Back</string>
     <string name="play">Play</string>
     <string name="leaderboard">Leaderboard</string>
-    <string name="logo">logo</string>
     <string name="totype">toType</string>
+    <string name="logo">logo</string>
+    <string name="logo2">logo2</string>
 </resources>

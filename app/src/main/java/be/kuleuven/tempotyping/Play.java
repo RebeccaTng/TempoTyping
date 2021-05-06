@@ -7,11 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Play extends AppCompatActivity {
     private Button regular;
     private Button keyboardSmash;
-    private Button back;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,18 @@ public class Play extends AppCompatActivity {
     }
 
     public void goGamemode(View caller) {
+        switch(caller.getId())
+        {
+            case R.id.regular:
+                Gamemode.setRegularGame(true);
+                break;
+            case R.id.keyboardSmash:
+                Gamemode.setRegularGame(false);
+                break;
+            default:
+                throw new RuntimeException("Unknow button ID");
+        }
+
         Intent goToGamemode = new Intent(this, Gamemode.class);
         startActivity(goToGamemode);
     }

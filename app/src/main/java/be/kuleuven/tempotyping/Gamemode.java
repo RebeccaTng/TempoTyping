@@ -12,23 +12,19 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Locale;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 public class Gamemode extends AppCompatActivity {
     private TextView timer;
     private TextView toType;
-    private RequestQueue requestQueue;
+    private RequestQueue requestText;
     private static boolean regularGame;
 
     public static void setRegularGame(boolean regularGame) {
@@ -63,7 +59,11 @@ public class Gamemode extends AppCompatActivity {
             }
         }.start();
 
-        requestQueue = Volley.newRequestQueue(this);
+        requestText();
+    }
+
+    private void requestText() {
+        requestText = Volley.newRequestQueue(this);
         String requestRegularURL;
         if (regularGame) {
             requestRegularURL = "https://studev.groept.be/api/a20sd202/randomRegularText";
@@ -92,7 +92,7 @@ public class Gamemode extends AppCompatActivity {
 
                 error -> toType.setText(error.getLocalizedMessage())
         );
-        requestQueue.add(textRequest);
+        requestText.add(textRequest);
     }
 
     public void goSummary(View caller) {

@@ -3,11 +3,16 @@
     <string name="regular">Regular</string>
     <string name="keyboard_smash">Keyboard Smash</string>
     <string name="play">Play</string>
-    <string name="leaderboards">Leaderboards</string>
     <string name="totype">toType</string>
     <string name="logo">logo</string>
-    <string name="logo2">logo2</string>
     <string name="type_here">Type here</string>
     <string name="_0_00">0:00</string>
     <string name="back">back</string>
+    <string name="play_logo">play_logo</string>
+    <string name="choose_game_mode">CHOOSE GAME MODE</string>
+    <string name="leaderboard">leaderboard</string>
+    <string name="gm_regular">Regular</string>
+    <string name="gm_scramble">Keyboard Smash</string>
+    <string name="none">None</string>
+    <string name="wpm_player">wpm - player</string>
 </resources>

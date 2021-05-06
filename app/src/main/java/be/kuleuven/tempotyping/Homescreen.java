@@ -19,7 +19,7 @@ public class Homescreen extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         play = findViewById(R.id.play);
-        leaderboards = findViewById(R.id.leaderboards);
+        leaderboards = findViewById(R.id.leaderboard);
     }
 
     public void goPlay(View caller) {

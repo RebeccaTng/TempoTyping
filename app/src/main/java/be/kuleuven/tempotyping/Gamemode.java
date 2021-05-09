@@ -8,6 +8,8 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -26,6 +28,9 @@ public class Gamemode extends AppCompatActivity {
     private TextView toType;
     private RequestQueue requestText;
     private static boolean regularGame;
+    private Button summary;
+    private EditText typeHere;
+    private long diff;
 
     public static void setRegularGame(boolean regularGame) {
         Gamemode.regularGame = regularGame;
@@ -40,26 +45,45 @@ public class Gamemode extends AppCompatActivity {
 
         timer = findViewById(R.id.timer);
         toType = findViewById(R.id.toType);
+        summary = findViewById(R.id.summary);
+        typeHere = findViewById(R.id.typeHere);
 
-
-        long duration = TimeUnit.SECONDS.toMillis(10);
+        long duration = 4000;
         new CountDownTimer(duration, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                String sDuration = String.format(Locale.ENGLISH,"%02d:%02d"
-                ,TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-                ,TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)-TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
-                timer.setText(sDuration);
+                timer.setText(""+millisUntilFinished/1000);
             }
 
             @Override
             public void onFinish() {
-                String timeUp = "Time's up!";
-                timer.setText(timeUp);
+                typeHere.setVisibility(View.VISIBLE);
+                upwardCounter();
             }
         }.start();
 
         requestText();
+    }
+
+    public void upwardCounter()
+    {
+        long maxCounter = 5000;
+        new CountDownTimer(maxCounter, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                diff = maxCounter - millisUntilFinished;
+                String upDuration = String.format(Locale.ENGLISH,"%02d:%02d"
+                        ,TimeUnit.MILLISECONDS.toMinutes(diff)
+                        ,TimeUnit.MILLISECONDS.toSeconds(diff)-TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(diff)));
+                timer.setText(upDuration);
+            }
+
+            public void onFinish() {
+                timer.setText("Time's up!");
+                typeHere.setVisibility(View.INVISIBLE);
+                summary.setVisibility(View.VISIBLE);
+            }
+        }.start();
     }
 
     private void requestText() {
@@ -97,6 +121,7 @@ public class Gamemode extends AppCompatActivity {
 
     public void goSummary(View caller) {
         Intent goToSummary = new Intent(this, Summary.class);
+        goToSummary.putExtra("Time", diff); //diff value niet exact genoeg, TODO: extract value from upDuration
         startActivity(goToSummary);
     }
 }

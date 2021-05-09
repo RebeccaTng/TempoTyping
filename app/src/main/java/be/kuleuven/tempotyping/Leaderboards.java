@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -19,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Leaderboards extends AppCompatActivity {
-    private ImageButton back2;
     private TextView regular_scores;
     private TextView scramble_scores;
     private RequestQueue requestScramble;
@@ -30,7 +28,6 @@ public class Leaderboards extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_leaderboards);
 
-        back2 = findViewById(R.id.back2);
         regular_scores = findViewById(R.id.regular_scores);
         scramble_scores = findViewById(R.id.scramble_scores);
 
@@ -38,7 +35,7 @@ public class Leaderboards extends AppCompatActivity {
         requestScrambleLB();
     }
 
-    public void goHomescreen2(View caller) {
+    public void goHomescreen(View caller) {
         Intent goToHomescreen = new Intent(this, Homescreen.class);
         startActivity(goToHomescreen);
     }

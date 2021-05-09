@@ -9,18 +9,18 @@
 
     <ImageButton
         android:id="@+id/back2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#00FFFFFF"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="580dp"
+        android:background="@drawable/button_back"
         android:contentDescription="@string/back"
         android:onClick="goHomescreen2"
-        android:tint="#989898"
+        android:tint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.954"
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
     <ImageView
@@ -50,7 +50,7 @@
     <TextView
         android:id="@+id/regular_scores"
         android:layout_width="150dp"
-        android:layout_height="400dp"
+        android:layout_height="370dp"
         android:background="#94FFFFFF"
         android:padding="10dp"
         android:text="@string/none"
@@ -58,8 +58,7 @@
         app:layout_constraintEnd_toStartOf="@+id/scramble_scores"
         app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo"
-        app:layout_constraintVertical_bias="0.549" />
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo" />
 
     <TextView
         android:id="@+id/wpm_player2"
@@ -75,15 +74,14 @@
     <TextView
         android:id="@+id/scramble_scores"
         android:layout_width="150dp"
-        android:layout_height="400dp"
+        android:layout_height="370dp"
         android:layout_marginEnd="32dp"
         android:background="#94FFFFFF"
         android:padding="10dp"
         android:text="@string/none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo"
-        app:layout_constraintVertical_bias="0.545" />
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo" />
 
     <TextView
         android:id="@+id/GM_regular"

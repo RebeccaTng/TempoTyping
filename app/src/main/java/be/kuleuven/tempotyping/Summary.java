@@ -31,8 +31,8 @@ public class Summary extends AppCompatActivity {
         startActivity(goToLeaderboards);
     }
 
-    public void goHomescreen(View caller) {
-        Intent goToHomescreen = new Intent(this, Homescreen.class);
-        startActivity(goToHomescreen);
+    public void goPlay(View caller) {
+        Intent goToPlay = new Intent(this, Play.class);
+        startActivity(goToPlay);
     }
 }

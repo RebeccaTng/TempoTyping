@@ -37,12 +37,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/homescreen"
+        android:id="@+id/play2"
         android:layout_width="305dp"
         android:layout_height="72dp"
         android:backgroundTint="#989898 "
-        android:onClick="goHomescreen"
-        android:text="@string/home"
+        android:onClick="goPlay"
+        android:text="@string/play_again"
         android:textSize="26sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
         android:onClick="goLeaderboards"
         android:text="@string/leaderboard"
         android:textSize="26sp"
-        app:layout_constraintBottom_toTopOf="@+id/homescreen"
-        app:layout_constraintEnd_toEndOf="@+id/homescreen"
-        app:layout_constraintStart_toStartOf="@+id/homescreen" />
+        app:layout_constraintBottom_toTopOf="@+id/play2"
+        app:layout_constraintEnd_toEndOf="@+id/play2"
+        app:layout_constraintStart_toStartOf="@+id/play2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

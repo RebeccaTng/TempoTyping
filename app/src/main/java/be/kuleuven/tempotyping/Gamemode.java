@@ -2,9 +2,12 @@ package be.kuleuven.tempotyping;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,9 +31,9 @@ public class Gamemode extends AppCompatActivity {
     private TextView toType;
     private RequestQueue requestText;
     private static boolean regularGame;
-    private Button summary;
     private EditText typeHere;
     private long diff;
+    private String playerName = "";
 
     public static void setRegularGame(boolean regularGame) {
         Gamemode.regularGame = regularGame;
@@ -45,24 +48,24 @@ public class Gamemode extends AppCompatActivity {
 
         timer = findViewById(R.id.timer);
         toType = findViewById(R.id.toType);
-        summary = findViewById(R.id.summary);
         typeHere = findViewById(R.id.typeHere);
 
-        long duration = 4000;
+        requestText();
+
+        long duration = 6000;
         new CountDownTimer(duration, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timer.setText(""+millisUntilFinished/1000);
+                typeHere.setEnabled(false);
             }
 
             @Override
             public void onFinish() {
-                typeHere.setVisibility(View.VISIBLE);
+                typeHere.setEnabled(true);
                 upwardCounter();
             }
         }.start();
-
-        requestText();
     }
 
     public void upwardCounter()
@@ -80,8 +83,8 @@ public class Gamemode extends AppCompatActivity {
 
             public void onFinish() {
                 timer.setText("Time's up!");
-                typeHere.setVisibility(View.INVISIBLE);
-                summary.setVisibility(View.VISIBLE);
+                typeHere.setEnabled(false);
+                textDialog();
             }
         }.start();
     }
@@ -119,9 +122,21 @@ public class Gamemode extends AppCompatActivity {
         requestText.add(textRequest);
     }
 
-    public void goSummary(View caller) {
-        Intent goToSummary = new Intent(this, Summary.class);
-        goToSummary.putExtra("Time", diff); //diff value niet exact genoeg, TODO: extract value from upDuration
-        startActivity(goToSummary);
+    private void textDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Type your name");
+        builder.setCancelable(false);
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton("GO TO SUMMARY", (dialog, which) -> {
+            playerName = input.getText().toString();
+            Intent goToSummary = new Intent(Gamemode.this, Summary.class);
+            goToSummary.putExtra("Time", diff); //diff value niet exact genoeg, TODO: extract value from upDuration
+            startActivity(goToSummary);
+        });
+
+        builder.show();
     }
 }

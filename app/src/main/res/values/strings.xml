@@ -16,7 +16,7 @@
     <string name="none">None</string>
     <string name="wpm_player">wpm - player</string>
     <string name="summary">Summary</string>
-    <string name="home">Home</string>
     <string name="your_score">YOUR SCORE:</string>
     <string name="_0_wpm">0 wpm</string>
+    <string name="play_again">Play again</string>
 </resources>

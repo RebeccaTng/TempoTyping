@@ -32,7 +32,12 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/toType"
         app:layout_constraintStart_toStartOf="@+id/toType"
-        app:layout_constraintTop_toBottomOf="@+id/toType" />
+        app:layout_constraintTop_toBottomOf="@+id/toType"
+
+        android:imeOptions="actionGo"
+        android:imeActionId="666"
+        android:imeActionLabel="Enter"
+        android:maxLines="1"/>
 
     <TextView
         android:id="@+id/timer"

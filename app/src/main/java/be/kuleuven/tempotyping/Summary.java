@@ -4,15 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Summary extends AppCompatActivity {
     private TextView score;
+    private TextView yourPlacement;
+    private RequestQueue requestQueue;
+    private long wpm;
+    private boolean regularGame;
+    private String playerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +32,15 @@ public class Summary extends AppCompatActivity {
         setContentView(R.layout.activity_summary);
 
         score = findViewById(R.id.score);
+        yourPlacement = findViewById(R.id.placement);
 
         Bundle extras = getIntent().getExtras();
-        long wpm = extras.getLong("WPM");
-        String scoreString = wpm + " wpm";
-        score.setText(scoreString);
+        regularGame = extras.getBoolean("Gamemode");
+        playerName = extras.getString("Player");
+        wpm = extras.getLong("WPM");
+        score.setText(wpm + " wpm");
 
+        getPlacement();
     }
 
     public void goLeaderboards(View caller) {
@@ -37,5 +51,34 @@ public class Summary extends AppCompatActivity {
     public void goPlay(View caller) {
         Intent goToPlay = new Intent(this, Play.class);
         startActivity(goToPlay);
+    }
+
+    private void getPlacement() {
+        requestQueue = Volley.newRequestQueue(this);
+        String requestURL;
+        if (regularGame) {
+            requestURL = "https://studev.groept.be/api/a20sd202/regularPlacement/";
+        } else {
+            requestURL = "https://studev.groept.be/api/a20sd202/scramblePlacement/";
+        }
+
+        String requestPlacementURL = requestURL + wpm + "/" + playerName;
+        System.out.println(wpm + playerName +"");
+
+        JsonArrayRequest placementRequest = new JsonArrayRequest(Request.Method.GET, requestPlacementURL, null,
+                response -> {
+                    try {
+                        JSONObject curObject = response.getJSONObject(0);
+                        int placement = curObject.getInt("RowNumber");
+                        yourPlacement.setText("#" + placement);
+                        System.out.println(placement);
+                    } catch (JSONException e) {
+                        Log.e("Database", e.getMessage(), e);
+                    }
+                },
+
+                error -> yourPlacement.setText(error.getLocalizedMessage())
+        );
+        requestQueue.add(placementRequest);
     }
 }

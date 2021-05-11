@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,7 +40,6 @@ public class Gamemode extends AppCompatActivity {
     private String playerName = "";
     private long wpm;
     private int i;
-    private int placement;
     private String text;
 
     @Override
@@ -96,7 +96,7 @@ public class Gamemode extends AppCompatActivity {
 
     public void upwardCounter()
     {
-        long maxCounter = 15000;
+        long maxCounter = 5000;
         new CountDownTimer(maxCounter, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -154,17 +154,20 @@ public class Gamemode extends AppCompatActivity {
         builder.setCancelable(false);
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
+        InputFilter[] FilterArray = new InputFilter[1];
+        FilterArray[0] = new InputFilter.LengthFilter(7);
+        input.setFilters(FilterArray);
         builder.setView(input);
 
         builder.setPositiveButton("GO TO SUMMARY", (dialog, which) -> {
             playerName = input.getText().toString();
-            submitScore();
-            getPlacement();
             // 50 = placeholder voor aantal woorden in tekst
             wpm = 50*60000/diff; //diff value niet exact genoeg, TODO: extract value from upDuration
+            submitScore();
             Intent goToSummary = new Intent(Gamemode.this, Summary.class);
             goToSummary.putExtra("WPM", wpm);
             goToSummary.putExtra("Gamemode", regularGame);
+            goToSummary.putExtra("Player", playerName);
             startActivity(goToSummary);
         });
         builder.show();
@@ -185,31 +188,5 @@ public class Gamemode extends AppCompatActivity {
                 error -> toType.setText(error.getLocalizedMessage())
         );
         requestQueue.add(submitScore);
-    }
-
-    private void getPlacement() {
-        String requestURL;
-        if (regularGame) {
-            requestURL = "https://studev.groept.be/api/a20sd202/regularPlacement/";
-        } else {
-            requestURL = "https://studev.groept.be/api/a20sd202/scramblePlacement/";
-        }
-
-        String requestPlacementURL = requestURL + wpm + "/" + playerName;
-
-        JsonArrayRequest placementRequest = new JsonArrayRequest(Request.Method.GET, requestPlacementURL, null,
-                response -> {
-                    try {
-                        JSONObject curObject = response.getJSONObject(0);
-                        int placementResponse = curObject.getInt("RowNumber");
-                        placement = placementResponse;
-                    } catch (JSONException e) {
-                        Log.e("Database", e.getMessage(), e);
-                    }
-                },
-
-                error -> {}
-        );
-        requestQueue.add(placementRequest);
     }
 }

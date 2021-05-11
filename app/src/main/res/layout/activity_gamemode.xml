@@ -26,18 +26,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:ems="10"
-        android:hint="@string/type_here"
+        android:enabled="false"
+        android:hint="@string/wait"
+        android:imeOptions="actionSend"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/toType"
         app:layout_constraintStart_toStartOf="@+id/toType"
-        app:layout_constraintTop_toBottomOf="@+id/toType"
-
-        android:imeOptions="actionGo"
-        android:imeActionId="666"
-        android:imeActionLabel="Enter"
-        android:maxLines="1"/>
+        app:layout_constraintTop_toBottomOf="@+id/toType" />
 
     <TextView
         android:id="@+id/timer"

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -37,6 +38,7 @@ public class Gamemode extends AppCompatActivity {
     private long diff;
     private String playerName = "";
     private long wpm;
+    private int i;
     private int placement;
     private String text;
 
@@ -61,8 +63,6 @@ public class Gamemode extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 timer.setText(""+millisUntilFinished/1000);
-                typeHere.setHint("Wait");
-                typeHere.setEnabled(false);
             }
 
             @Override
@@ -72,11 +72,31 @@ public class Gamemode extends AppCompatActivity {
                 upwardCounter();
             }
         }.start();
+
+        String toTypeText = toType.getText().toString();
+        String[] splitWords = toTypeText.split(" ");
+        i = 0;
+
+        typeHere.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    handled = true;
+                    typeHere.setText(splitWords[0]);
+                    /*if (typeHere.getText().toString().equals(splitWords[i])) {
+                        typeHere.setText("");
+                        i++;
+                    }*/
+                }
+                return handled;
+            }
+        });
     }
 
     public void upwardCounter()
     {
-        long maxCounter = 5000;
+        long maxCounter = 15000;
         new CountDownTimer(maxCounter, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -191,11 +211,5 @@ public class Gamemode extends AppCompatActivity {
                 error -> {}
         );
         requestQueue.add(placementRequest);
-    }
-
-    private String[] getWords()
-    {
-        String toTypeText = toType.getText().toString();
-        return toTypeText.split(" ");
     }
 }

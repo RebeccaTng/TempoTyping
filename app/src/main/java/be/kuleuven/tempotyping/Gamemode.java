@@ -30,15 +30,11 @@ public class Gamemode extends AppCompatActivity {
     private TextView timer;
     private TextView toType;
     private RequestQueue requestText;
-    private static boolean regularGame;
+    private boolean regularGame;
     private EditText typeHere;
     private long diff;
     private String playerName = "";
     private int wpm;
-
-    public static void setRegularGame(boolean regularGame) {
-        Gamemode.regularGame = regularGame;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +42,9 @@ public class Gamemode extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_gamemode);
+
+        Bundle extras = getIntent().getExtras();
+        regularGame = extras.getBoolean("Gamemode");
 
         timer = findViewById(R.id.timer);
         toType = findViewById(R.id.toType);
@@ -148,7 +147,5 @@ public class Gamemode extends AppCompatActivity {
         } else {
             submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScrambleScore/";
         }
-
-
     }
 }

@@ -18,19 +18,20 @@ public class Play extends AppCompatActivity {
     }
 
     public void goGamemode(View caller) {
+        boolean regularGame;
         switch(caller.getId())
         {
             case R.id.regular:
-                Gamemode.setRegularGame(true);
+                regularGame = true;
                 break;
             case R.id.keyboardSmash:
-                Gamemode.setRegularGame(false);
+                regularGame = false;
                 break;
             default:
                 throw new RuntimeException("Unknow button ID");
         }
-
         Intent goToGamemode = new Intent(this, Gamemode.class);
+        goToGamemode.putExtra("Gamemode", regularGame);
         startActivity(goToGamemode);
     }
 

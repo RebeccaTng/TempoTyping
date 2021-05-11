@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputFilter;
@@ -12,14 +14,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -30,6 +29,8 @@ import org.json.JSONObject;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import static android.graphics.PorterDuff.Mode.ADD;
+
 public class Gamemode extends AppCompatActivity {
     private TextView timer;
     private TextView toType;
@@ -39,8 +40,7 @@ public class Gamemode extends AppCompatActivity {
     private long diff;
     private String playerName = "";
     private long wpm;
-    private int i;
-    private String text;
+    private int textIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,40 @@ public class Gamemode extends AppCompatActivity {
         typeHere = findViewById(R.id.typeHere);
 
         requestText();
+        downwardCounter();
+    }
 
+    public void startGame()
+    {
+        String toTypeText = toType.getText().toString();
+        String[] splitWords = toTypeText.split(" ");
+        textIndex = 0;
+
+        typeHere.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    handled = true;
+                    if (typeHere.getText().toString().equals(splitWords[textIndex])) {
+                        typeHere.setBackgroundTintMode(null);
+                        typeHere.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#989898")));
+                        //typeHere.setBackgroundResource(R.drawable.type_here_back);
+                        typeHere.setText("");
+                        textIndex++;
+                    }else{
+                        typeHere.setBackgroundTintMode(ADD);
+                        typeHere.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#92ED0D0D")));
+                        //typeHere.setBackgroundResource(R.drawable.type_here_back);
+                    }
+                }
+                return handled;
+            }
+        });
+    }
+
+    public void downwardCounter()
+    {
         long duration = 6000;
         new CountDownTimer(duration, 1000) {
             @Override
@@ -69,34 +102,15 @@ public class Gamemode extends AppCompatActivity {
             public void onFinish() {
                 typeHere.setHint("Type here");
                 typeHere.setEnabled(true);
+                startGame();
                 upwardCounter();
             }
         }.start();
-
-        String toTypeText = toType.getText().toString();
-        String[] splitWords = toTypeText.split(" ");
-        i = 0;
-
-        typeHere.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    handled = true;
-                    typeHere.setText(splitWords[0]);
-                    /*if (typeHere.getText().toString().equals(splitWords[i])) {
-                        typeHere.setText("");
-                        i++;
-                    }*/
-                }
-                return handled;
-            }
-        });
     }
 
     public void upwardCounter()
     {
-        long maxCounter = 5000;
+        long maxCounter = 10000;
         new CountDownTimer(maxCounter, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -137,7 +151,6 @@ public class Gamemode extends AppCompatActivity {
                             }
                         }
                         toType.setText(responseString);
-                        text = responseString;
                     } catch (JSONException e) {
                         Log.e("Database", e.getMessage(), e);
                     }

@@ -34,7 +34,7 @@ public class Gamemode extends AppCompatActivity {
     private EditText typeHere;
     private long diff;
     private String playerName = "";
-    private int wpm;
+    private long wpm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,8 +132,10 @@ public class Gamemode extends AppCompatActivity {
 
         builder.setPositiveButton("GO TO SUMMARY", (dialog, which) -> {
             playerName = input.getText().toString();
+            // 50 = placeholder voor aantal woorden in tekst
+            wpm = 50*60000/diff; //diff value niet exact genoeg, TODO: extract value from upDuration
             Intent goToSummary = new Intent(Gamemode.this, Summary.class);
-            goToSummary.putExtra("Time", diff); //diff value niet exact genoeg, TODO: extract value from upDuration
+            goToSummary.putExtra("WPM", wpm);
             startActivity(goToSummary);
         });
 
@@ -148,4 +150,12 @@ public class Gamemode extends AppCompatActivity {
             submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScrambleScore/";
         }
     }
+
+    private String[] getWords()
+    {
+        String toTypeText = toType.getText().toString();
+        return toTypeText.split(" ");
+    }
+
+
 }

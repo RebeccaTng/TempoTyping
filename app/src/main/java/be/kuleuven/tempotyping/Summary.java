@@ -20,7 +20,7 @@ public class Summary extends AppCompatActivity {
         score = findViewById(R.id.score);
 
         Bundle extras = getIntent().getExtras();
-        long wpm = 50*60000/extras.getLong("Time"); // 50 = placeholder voor aantal woorden in tekst
+        long wpm = extras.getLong("WPM");
         String scoreString = wpm + " wpm";
         score.setText(scoreString);
 

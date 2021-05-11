@@ -19,4 +19,6 @@
     <string name="your_score">YOUR SCORE:</string>
     <string name="_0_wpm">0 wpm</string>
     <string name="play_again">Play again</string>
+    <string name="your_placement_on_the_leaderboard">YOUR PLACEMENT ON THE LEADERBOARD:</string>
+    <string name="_0">#0</string>
 </resources>

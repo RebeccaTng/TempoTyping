@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 public class Summary extends AppCompatActivity {
     private TextView score;
 

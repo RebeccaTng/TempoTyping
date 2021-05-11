@@ -37,6 +37,8 @@ public class Gamemode extends AppCompatActivity {
     private long diff;
     private String playerName = "";
     private long wpm;
+    private int placement;
+    private String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,7 @@ public class Gamemode extends AppCompatActivity {
                             }
                         }
                         toType.setText(responseString);
+                        text = responseString;
                     } catch (JSONException e) {
                         Log.e("Database", e.getMessage(), e);
                     }
@@ -136,10 +139,12 @@ public class Gamemode extends AppCompatActivity {
         builder.setPositiveButton("GO TO SUMMARY", (dialog, which) -> {
             playerName = input.getText().toString();
             submitScore();
+            getPlacement();
             // 50 = placeholder voor aantal woorden in tekst
             wpm = 50*60000/diff; //diff value niet exact genoeg, TODO: extract value from upDuration
             Intent goToSummary = new Intent(Gamemode.this, Summary.class);
             goToSummary.putExtra("WPM", wpm);
+            goToSummary.putExtra("Gamemode", regularGame);
             startActivity(goToSummary);
         });
         builder.show();
@@ -160,6 +165,32 @@ public class Gamemode extends AppCompatActivity {
                 error -> toType.setText(error.getLocalizedMessage())
         );
         requestQueue.add(submitScore);
+    }
+
+    private void getPlacement() {
+        String requestURL;
+        if (regularGame) {
+            requestURL = "https://studev.groept.be/api/a20sd202/regularPlacement/";
+        } else {
+            requestURL = "https://studev.groept.be/api/a20sd202/scramblePlacement/";
+        }
+
+        String requestPlacementURL = requestURL + wpm + "/" + playerName;
+
+        JsonArrayRequest placementRequest = new JsonArrayRequest(Request.Method.GET, requestPlacementURL, null,
+                response -> {
+                    try {
+                        JSONObject curObject = response.getJSONObject(0);
+                        int placementResponse = curObject.getInt("RowNumber");
+                        placement = placementResponse;
+                    } catch (JSONException e) {
+                        Log.e("Database", e.getMessage(), e);
+                    }
+                },
+
+                error -> {}
+        );
+        requestQueue.add(placementRequest);
     }
 
     private String[] getWords()

@@ -20,7 +20,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yourScore"
-        app:layout_constraintVertical_bias="0.874" />
+        app:layout_constraintVertical_bias="0.067" />
+
+    <TextView
+        android:id="@+id/placement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/_0"
+        android:textColor="#403F3F"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/leaderboard2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yourPlacement"
+        app:layout_constraintVertical_bias="0.060000002" />
 
     <TextView
         android:id="@+id/yourScore"
@@ -34,7 +49,25 @@
         app:layout_constraintBottom_toTopOf="@+id/leaderboard2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.172" />
+
+    <TextView
+        android:id="@+id/yourPlacement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="@string/your_placement_on_the_leaderboard"
+        android:textColor="#403F3F"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/leaderboard2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score"
+        app:layout_constraintVertical_bias="0.451" />
 
     <Button
         android:id="@+id/play2"
@@ -48,7 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.836" />
 
     <Button
         android:id="@+id/leaderboard2"

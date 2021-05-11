@@ -3,21 +3,21 @@ package be.kuleuven.tempotyping;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputType;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 public class Gamemode extends AppCompatActivity {
     private TextView timer;
     private TextView toType;
-    private RequestQueue requestText;
+    private RequestQueue requestQueue;
     private boolean regularGame;
     private EditText typeHere;
     private long diff;
@@ -57,11 +57,13 @@ public class Gamemode extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 timer.setText(""+millisUntilFinished/1000);
+                typeHere.setHint("Wait");
                 typeHere.setEnabled(false);
             }
 
             @Override
             public void onFinish() {
+                typeHere.setHint("Type here");
                 typeHere.setEnabled(true);
                 upwardCounter();
             }
@@ -90,7 +92,7 @@ public class Gamemode extends AppCompatActivity {
     }
 
     private void requestText() {
-        requestText = Volley.newRequestQueue(this);
+        requestQueue = Volley.newRequestQueue(this);
         String requestRegularURL;
         if (regularGame) {
             requestRegularURL = "https://studev.groept.be/api/a20sd202/randomRegularText";
@@ -99,7 +101,6 @@ public class Gamemode extends AppCompatActivity {
         }
 
         JsonArrayRequest textRequest = new JsonArrayRequest(Request.Method.GET, requestRegularURL, null,
-
                 response -> {
                     try {
                         String responseString = "";
@@ -119,7 +120,7 @@ public class Gamemode extends AppCompatActivity {
 
                 error -> toType.setText(error.getLocalizedMessage())
         );
-        requestText.add(textRequest);
+        requestQueue.add(textRequest);
     }
 
     private void textDialog(){
@@ -132,13 +133,13 @@ public class Gamemode extends AppCompatActivity {
 
         builder.setPositiveButton("GO TO SUMMARY", (dialog, which) -> {
             playerName = input.getText().toString();
+            submitScore();
             // 50 = placeholder voor aantal woorden in tekst
             wpm = 50*60000/diff; //diff value niet exact genoeg, TODO: extract value from upDuration
             Intent goToSummary = new Intent(Gamemode.this, Summary.class);
             goToSummary.putExtra("WPM", wpm);
             startActivity(goToSummary);
         });
-
         builder.show();
     }
 
@@ -149,6 +150,14 @@ public class Gamemode extends AppCompatActivity {
         } else {
             submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScrambleScore/";
         }
+
+        String submitURL = submitScoreURL + wpm + "/" + playerName;
+
+        StringRequest submitScore = new StringRequest(Request.Method.GET, submitURL,
+                response -> {},
+                error -> toType.setText(error.getLocalizedMessage())
+        );
+        requestQueue.add(submitScore);
     }
 
     private String[] getWords()
@@ -156,6 +165,4 @@ public class Gamemode extends AppCompatActivity {
         String toTypeText = toType.getText().toString();
         return toTypeText.split(" ");
     }
-
-
 }

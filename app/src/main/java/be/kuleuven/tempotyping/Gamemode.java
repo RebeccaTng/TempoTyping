@@ -34,6 +34,7 @@ public class Gamemode extends AppCompatActivity {
     private EditText typeHere;
     private long diff;
     private String playerName = "";
+    private int wpm;
 
     public static void setRegularGame(boolean regularGame) {
         Gamemode.regularGame = regularGame;
@@ -138,5 +139,16 @@ public class Gamemode extends AppCompatActivity {
         });
 
         builder.show();
+    }
+
+    private void submitScore() {
+        String submitScoreURL;
+        if (regularGame) {
+            submitScoreURL = "https://studev.groept.be/api/a20sd202/submitRegularScore/";
+        } else {
+            submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScrambleScore/";
+        }
+
+
     }
 }

@@ -1,11 +1,9 @@
 package be.kuleuven.tempotyping;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputFilter;
@@ -16,6 +14,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,18 +29,17 @@ import org.json.JSONObject;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import static android.graphics.PorterDuff.Mode.ADD;
-
 public class Gamemode extends AppCompatActivity {
     private TextView timer;
     private TextView toType;
     private RequestQueue requestQueue;
     private boolean regularGame;
     private EditText typeHere;
-    private long diff;
+    private long difference;
     private String playerName;
     private long wpm;
     private int textIndex;
+    private String[] splitWords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +55,9 @@ public class Gamemode extends AppCompatActivity {
         toType = findViewById(R.id.toType);
         typeHere = findViewById(R.id.typeHere);
 
+        typeHere.getBackground().setColorFilter(null);
+        typeHere.setTextColor(Color.BLACK);
+
         requestText();
         downwardCounter();
     }
@@ -63,7 +65,7 @@ public class Gamemode extends AppCompatActivity {
     public void startGame()
     {
         String toTypeText = toType.getText().toString();
-        String[] splitWords = toTypeText.split(" ");
+        splitWords = toTypeText.split(" ");
         textIndex = 0;
 
         typeHere.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -73,15 +75,13 @@ public class Gamemode extends AppCompatActivity {
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
                     handled = true;
                     if (typeHere.getText().toString().equals(splitWords[textIndex])) {
-                        typeHere.setBackgroundTintMode(null);
-                        typeHere.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#989898")));
-                        //typeHere.setBackgroundResource(R.drawable.type_here_back);
+                        typeHere.getBackground().setColorFilter(null);
+                        typeHere.setTextColor(Color.BLACK);
                         typeHere.setText("");
                         textIndex++;
                     }else{
-                        typeHere.setBackgroundTintMode(ADD);
-                        typeHere.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#92ED0D0D")));
-                        //typeHere.setBackgroundResource(R.drawable.type_here_back);
+                        typeHere.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                        typeHere.setTextColor(Color.RED);
                     }
                 }
                 return handled;
@@ -110,19 +110,24 @@ public class Gamemode extends AppCompatActivity {
 
     public void upwardCounter()
     {
-        long maxCounter = 10000;
+        long maxCounter = 180000;
         new CountDownTimer(maxCounter, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                diff = maxCounter - millisUntilFinished;
+                difference = maxCounter - millisUntilFinished;
                 String upDuration = String.format(Locale.ENGLISH,"%02d:%02d"
-                        ,TimeUnit.MILLISECONDS.toMinutes(diff)
-                        ,TimeUnit.MILLISECONDS.toSeconds(diff)-TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(diff)));
+                        ,TimeUnit.MILLISECONDS.toMinutes(difference)
+                        ,TimeUnit.MILLISECONDS.toSeconds(difference)-TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(difference)));
                 timer.setText(upDuration);
+                if (textIndex>=splitWords.length)
+                {
+                    onFinish();
+                    cancel();
+                }
             }
 
             public void onFinish() {
-                timer.setText("Time's up!");
+                timer.setText("Finished!");
                 typeHere.setEnabled(false);
                 textDialog();
             }
@@ -177,8 +182,8 @@ public class Gamemode extends AppCompatActivity {
             if (playerName.equals("")) {
                 playerName = "guest";
             }
-            // 50 = placeholder voor aantal woorden in tekst
-            wpm = 50*60000/diff; //diff value niet exact genoeg, TODO: extract value from upDuration
+            difference = (difference /1000)+1;
+            wpm = textIndex*60/ difference;
             submitScore();
             Intent goToSummary = new Intent(Gamemode.this, Summary.class);
             goToSummary.putExtra("WPM", wpm);

@@ -38,6 +38,7 @@ public class Leaderboards extends AppCompatActivity {
     public void goHomescreen(View caller) {
         Intent goToHomescreen = new Intent(this, Homescreen.class);
         startActivity(goToHomescreen);
+        overridePendingTransition(0, 0);
     }
 
     private void requestRegularLB() {

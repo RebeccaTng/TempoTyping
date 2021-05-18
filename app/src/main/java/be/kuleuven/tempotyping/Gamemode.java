@@ -168,7 +168,7 @@ public class Gamemode extends AppCompatActivity {
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         InputFilter[] FilterArray = new InputFilter[1];
-        FilterArray[0] = new InputFilter.LengthFilter(7);
+        FilterArray[0] = new InputFilter.LengthFilter(6);
         input.setFilters(FilterArray);
         builder.setView(input);
 
@@ -182,6 +182,7 @@ public class Gamemode extends AppCompatActivity {
             goToSummary.putExtra("Gamemode", regularGame);
             goToSummary.putExtra("Player", playerName);
             startActivity(goToSummary);
+            overridePendingTransition(0, 0);
         });
         builder.show();
     }

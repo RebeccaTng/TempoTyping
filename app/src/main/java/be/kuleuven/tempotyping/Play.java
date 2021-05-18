@@ -33,10 +33,12 @@ public class Play extends AppCompatActivity {
         Intent goToGamemode = new Intent(this, Gamemode.class);
         goToGamemode.putExtra("Gamemode", regularGame);
         startActivity(goToGamemode);
+        overridePendingTransition(0, 0);
     }
 
     public void goHomescreen(View caller) {
         Intent goToHomescreen = new Intent(this, Homescreen.class);
         startActivity(goToHomescreen);
+        overridePendingTransition(0, 0);
     }
 }

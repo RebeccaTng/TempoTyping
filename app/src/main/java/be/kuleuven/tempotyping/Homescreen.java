@@ -20,10 +20,12 @@ public class Homescreen extends AppCompatActivity {
     public void goPlay(View caller) {
         Intent goToPlay = new Intent(this, Play.class);
         startActivity(goToPlay);
+        overridePendingTransition(0, 0);
     }
 
     public void goLeaderboards(View caller) {
         Intent goToLeaderboards = new Intent(this, Leaderboards.class);
         startActivity(goToLeaderboards);
+        overridePendingTransition(0, 0);
     }
 }

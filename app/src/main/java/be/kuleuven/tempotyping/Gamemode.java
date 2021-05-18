@@ -38,7 +38,7 @@ public class Gamemode extends AppCompatActivity {
     private boolean regularGame;
     private EditText typeHere;
     private long diff;
-    private String playerName = "";
+    private String playerName;
     private long wpm;
     private int textIndex;
 
@@ -163,7 +163,7 @@ public class Gamemode extends AppCompatActivity {
 
     private void textDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Type your name");
+        builder.setTitle("Type your name (only letters)");
         builder.setCancelable(false);
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -173,7 +173,10 @@ public class Gamemode extends AppCompatActivity {
         builder.setView(input);
 
         builder.setPositiveButton("GO TO SUMMARY", (dialog, which) -> {
-            playerName = input.getText().toString();
+            playerName = input.getText().toString().replaceAll("[^a-zA-Z0-9]", "");
+            if (playerName.equals("")) {
+                playerName = "guest";
+            }
             // 50 = placeholder voor aantal woorden in tekst
             wpm = 50*60000/diff; //diff value niet exact genoeg, TODO: extract value from upDuration
             submitScore();

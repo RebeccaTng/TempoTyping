@@ -73,7 +73,6 @@ public class Summary extends AppCompatActivity {
                         JSONObject curObject = response.getJSONObject(0);
                         int placement = curObject.getInt("RowNumber");
                         yourPlacement.setText("#" + placement);
-                        System.out.println(placement);
                     } catch (JSONException e) {
                         Log.e("Database", e.getMessage(), e);
                     }

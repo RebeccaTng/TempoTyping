@@ -24,6 +24,8 @@ public class Summary extends AppCompatActivity {
     private long wpm;
     private boolean regularGame;
     private String playerName;
+    private TextView accuracy;
+    private int accuracyPercent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class Summary extends AppCompatActivity {
         setContentView(R.layout.activity_summary);
 
         score = findViewById(R.id.score);
+        accuracy = findViewById(R.id.accuracy);
         yourPlacement = findViewById(R.id.placement);
 
         Bundle extras = getIntent().getExtras();
@@ -39,6 +42,8 @@ public class Summary extends AppCompatActivity {
         playerName = extras.getString("Player");
         wpm = extras.getLong("WPM");
         score.setText(wpm + " wpm");
+        accuracyPercent = extras.getInt("AccuracyPercent");
+        accuracy.setText(accuracyPercent + "% accuracy");
 
         getPlacement();
     }

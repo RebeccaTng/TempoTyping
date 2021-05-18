@@ -8,6 +8,21 @@
     tools:context=".Summary">
 
     <TextView
+        android:id="@+id/accuracy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/accuracy"
+        android:textColor="#403F3F"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/leaderboard2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score"
+        app:layout_constraintVertical_bias="0.091" />
+
+    <TextView
         android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,9 +78,10 @@
         android:textSize="26sp"
         app:layout_constraintBottom_toTopOf="@+id/leaderboard2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/score"
-        app:layout_constraintVertical_bias="0.451" />
+        app:layout_constraintVertical_bias="0.537" />
 
     <Button
         android:id="@+id/play2"

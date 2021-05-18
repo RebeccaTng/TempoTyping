@@ -40,6 +40,7 @@ public class Gamemode extends AppCompatActivity {
     private long wpm;
     private int textIndex;
     private String[] splitWords;
+    private int mistakes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class Gamemode extends AppCompatActivity {
         String toTypeText = toType.getText().toString();
         splitWords = toTypeText.split(" ");
         textIndex = 0;
+        mistakes = 0;
 
         typeHere.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -82,6 +84,7 @@ public class Gamemode extends AppCompatActivity {
                     }else{
                         typeHere.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
                         typeHere.setTextColor(Color.RED);
+                        mistakes++;
                     }
                 }
                 return handled;
@@ -110,7 +113,7 @@ public class Gamemode extends AppCompatActivity {
 
     public void upwardCounter()
     {
-        long maxCounter = 180000;
+        long maxCounter = 15000;
         new CountDownTimer(maxCounter, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -184,11 +187,13 @@ public class Gamemode extends AppCompatActivity {
             }
             difference = (difference /1000)+1;
             wpm = textIndex*60/ difference;
+            int accuracyPercent = 100-(100*mistakes/(mistakes+textIndex));
             submitScore();
             Intent goToSummary = new Intent(Gamemode.this, Summary.class);
             goToSummary.putExtra("WPM", wpm);
             goToSummary.putExtra("Gamemode", regularGame);
             goToSummary.putExtra("Player", playerName);
+            goToSummary.putExtra("AccuracyPercent", accuracyPercent);
             startActivity(goToSummary);
             overridePendingTransition(0, 0);
         });

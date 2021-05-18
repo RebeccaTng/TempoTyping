@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class Leaderboards extends AppCompatActivity {
     private TextView regular_scores;
     private TextView scramble_scores;
-    private RequestQueue requestScramble;
+    private RequestQueue requestLB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class Leaderboards extends AppCompatActivity {
     }
 
     private void requestRegularLB() {
-        requestScramble = Volley.newRequestQueue(this);
+        requestLB = Volley.newRequestQueue(this);
         String requestRegularURL = "https://studev.groept.be/api/a20sd202/regularLeaderboard";
 
         JsonArrayRequest regularLBRequest = new JsonArrayRequest(Request.Method.GET, requestRegularURL, null,
@@ -63,14 +63,13 @@ public class Leaderboards extends AppCompatActivity {
 
                 error -> regular_scores.setText(error.getLocalizedMessage())
         );
-        requestScramble.add(regularLBRequest);
+        requestLB.add(regularLBRequest);
     }
 
     private void requestScrambleLB() {
-        requestScramble = Volley.newRequestQueue(this);
-        String requestRegularURL = "https://studev.groept.be/api/a20sd202/scrambleLeaderboard";
+        String requestScrambleURL = "https://studev.groept.be/api/a20sd202/scrambleLeaderboard";
 
-        JsonArrayRequest scrambleLBRequest = new JsonArrayRequest(Request.Method.GET, requestRegularURL, null,
+        JsonArrayRequest scrambleLBRequest = new JsonArrayRequest(Request.Method.GET, requestScrambleURL, null,
 
                 response -> {
                     try {
@@ -88,6 +87,6 @@ public class Leaderboards extends AppCompatActivity {
 
                 error -> scramble_scores.setText(error.getLocalizedMessage())
         );
-        requestScramble.add(scrambleLBRequest);
+        requestLB.add(scrambleLBRequest);
     }
 }

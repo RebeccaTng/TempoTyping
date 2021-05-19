@@ -23,7 +23,7 @@ public class Summary extends AppCompatActivity {
     private RequestQueue requestQueue;
     private long wpm;
     private boolean regularGame;
-    private String playerName;
+    private long id;
     private TextView accuracy;
     private int accuracyPercent;
 
@@ -39,7 +39,7 @@ public class Summary extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         regularGame = extras.getBoolean("Gamemode");
-        playerName = extras.getString("Player");
+        id = extras.getLong("ID");
         wpm = extras.getLong("WPM");
         score.setText(wpm + " wpm");
         accuracyPercent = extras.getInt("AccuracyPercent");
@@ -69,8 +69,8 @@ public class Summary extends AppCompatActivity {
             requestURL = "https://studev.groept.be/api/a20sd202/scramblePlacement/";
         }
 
-        String requestPlacementURL = requestURL + wpm + "/" + playerName;
-        System.out.println(wpm + playerName +"");
+        String requestPlacementURL = requestURL + id;
+        System.out.println(requestPlacementURL);
 
         JsonArrayRequest placementRequest = new JsonArrayRequest(Request.Method.GET, requestPlacementURL, null,
                 response -> {

@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +42,7 @@ public class Gamemode extends AppCompatActivity {
     private int textIndex;
     private String[] splitWords;
     private int mistakes;
+    private long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class Gamemode extends AppCompatActivity {
         typeHere.setTextColor(Color.BLACK);
 
         requestText();
+        getID();
         downwardCounter();
     }
 
@@ -169,7 +172,7 @@ public class Gamemode extends AppCompatActivity {
         requestQueue.add(textRequest);
     }
 
-    private void textDialog(){
+    public void textDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Type your name (only letters)");
         builder.setCancelable(false);
@@ -187,12 +190,15 @@ public class Gamemode extends AppCompatActivity {
             }
             difference = (difference /1000)+1;
             wpm = textIndex*60/ difference;
-            int accuracyPercent = 100-(100*mistakes/(mistakes+textIndex));
+            int accuracyPercent = 100;
+            if(mistakes+textIndex != 0) {
+                accuracyPercent = 100-(100*mistakes/(mistakes+textIndex));
+            }
             submitScore();
             Intent goToSummary = new Intent(Gamemode.this, Summary.class);
             goToSummary.putExtra("WPM", wpm);
             goToSummary.putExtra("Gamemode", regularGame);
-            goToSummary.putExtra("Player", playerName);
+            goToSummary.putExtra("ID", id);
             goToSummary.putExtra("AccuracyPercent", accuracyPercent);
             startActivity(goToSummary);
             overridePendingTransition(0, 0);
@@ -200,7 +206,7 @@ public class Gamemode extends AppCompatActivity {
         builder.show();
     }
 
-    private void submitScore() {
+    public void submitScore() {
         String submitScoreURL;
         if (regularGame) {
             submitScoreURL = "https://studev.groept.be/api/a20sd202/submitRegularScore/";
@@ -215,5 +221,28 @@ public class Gamemode extends AppCompatActivity {
                 error -> toType.setText(error.getLocalizedMessage())
         );
         requestQueue.add(submitScore);
+    }
+
+    public void getID() {
+        String getIdUrl;
+        if (regularGame) {
+            getIdUrl = "https://studev.groept.be/api/a20sd202/getRegularID";
+        } else {
+            getIdUrl = "https://studev.groept.be/api/a20sd202/getScrambleID";
+        }
+
+        JsonArrayRequest getID = new JsonArrayRequest(Request.Method.GET, getIdUrl, null,
+                response -> {
+                    try {
+                        JSONObject curObject = response.getJSONObject(0);
+                        id = curObject.getLong("id")+1;
+                    } catch (JSONException e) {
+                        Log.e("Database", e.getMessage(), e);
+                    }
+                },
+
+                error -> toType.setText(error.getLocalizedMessage())
+        );
+        requestQueue.add(getID);
     }
 }

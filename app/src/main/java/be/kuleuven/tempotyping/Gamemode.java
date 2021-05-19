@@ -113,7 +113,7 @@ public class Gamemode extends AppCompatActivity {
 
     public void upwardCounter()
     {
-        long maxCounter = 15000;
+        long maxCounter = 180000;
         new CountDownTimer(maxCounter, 1000) {
 
             public void onTick(long millisUntilFinished) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#665BDCC2"
+    android:background="@drawable/tempotyping_background"
     tools:context=".Leaderboards">
 
     <ImageButton
@@ -30,45 +30,11 @@
         android:contentDescription="@string/leaderboard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.053"
+        app:layout_constraintVertical_bias="0.101"
         app:srcCompat="@drawable/leaderboard_logo" />
-
-    <TextView
-        android:id="@+id/wpm_player1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/wpm_player"
-        app:layout_constraintBottom_toTopOf="@+id/scramble_scores"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/regular_scores"
-        app:layout_constraintTop_toBottomOf="@+id/GM_scramble"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/regular_scores"
-        android:layout_width="150dp"
-        android:layout_height="370dp"
-        android:background="#94FFFFFF"
-        android:padding="10dp"
-        android:text="@string/loading"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/scramble_scores"
-        app:layout_constraintHorizontal_bias="0.468"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo" />
-
-    <TextView
-        android:id="@+id/wpm_player2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/wpm_player"
-        app:layout_constraintBottom_toTopOf="@+id/regular_scores"
-        app:layout_constraintEnd_toStartOf="@+id/scramble_scores"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/GM_regular"
-        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/scramble_scores"
@@ -80,21 +46,33 @@
         android:text="@string/loading"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo"
+        app:layout_constraintVertical_bias="0.445" />
 
     <TextView
-        android:id="@+id/GM_regular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/gm_regular"
-        android:textColor="#403F3F"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/regular_scores"
+        android:id="@+id/regular_scores"
+        android:layout_width="150dp"
+        android:layout_height="370dp"
+        android:background="#94FFFFFF"
+        android:padding="10dp"
+        android:text="@string/loading"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/scramble_scores"
+        app:layout_constraintHorizontal_bias="0.413"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo"
-        app:layout_constraintVertical_bias="0.614" />
+        app:layout_constraintVertical_bias="0.445" />
+
+    <TextView
+        android:id="@+id/wpm_player2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wpm_player"
+        app:layout_constraintBottom_toTopOf="@+id/regular_scores"
+        app:layout_constraintEnd_toEndOf="@+id/regular_scores"
+        app:layout_constraintStart_toStartOf="@+id/regular_scores"
+        app:layout_constraintTop_toBottomOf="@+id/GM_regular"
+        app:layout_constraintVertical_bias="0.071" />
 
     <TextView
         android:id="@+id/GM_scramble"
@@ -106,9 +84,34 @@
         android:textColor="#403F3F"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/scramble_scores"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/regular_scores"
+        app:layout_constraintEnd_toEndOf="@+id/scramble_scores"
+        app:layout_constraintStart_toStartOf="@+id/scramble_scores"
         app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo"
-        app:layout_constraintVertical_bias="0.455" />
+        app:layout_constraintVertical_bias="0.279" />
+
+    <TextView
+        android:id="@+id/GM_regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/gm_regular"
+        android:textColor="#403F3F"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/regular_scores"
+        app:layout_constraintEnd_toEndOf="@+id/regular_scores"
+        app:layout_constraintStart_toStartOf="@+id/regular_scores"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo"
+        app:layout_constraintVertical_bias="0.535" />
+
+    <TextView
+        android:id="@+id/wpm_player1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wpm_player"
+        app:layout_constraintBottom_toTopOf="@+id/scramble_scores"
+        app:layout_constraintEnd_toEndOf="@+id/scramble_scores"
+        app:layout_constraintStart_toStartOf="@+id/scramble_scores"
+        app:layout_constraintTop_toBottomOf="@+id/GM_scramble"
+        app:layout_constraintVertical_bias="0.083" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

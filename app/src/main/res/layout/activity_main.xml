@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#664EDCBF"
+    android:background="@drawable/tempotyping_background"
     tools:context=".Homescreen">
 
     <Button

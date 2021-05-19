@@ -18,21 +18,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Leaderboards extends AppCompatActivity {
-    private TextView regular_scores;
-    private TextView scramble_scores;
-    private RequestQueue requestLB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_leaderboards);
 
-        regular_scores = findViewById(R.id.regular_scores);
-        scramble_scores = findViewById(R.id.scramble_scores);
+        TextView regular_scores = findViewById(R.id.regular_scores);
+        TextView scramble_scores = findViewById(R.id.scramble_scores);
 
-        requestRegularLB();
-        requestScrambleLB();
+        requestLB("Regular", regular_scores);
+        requestLB("Scramble", scramble_scores);
     }
 
     public void goHomescreen(View caller) {
@@ -41,52 +38,41 @@ public class Leaderboards extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
-    private void requestRegularLB() {
-        requestLB = Volley.newRequestQueue(this);
-        String requestRegularURL = "https://studev.groept.be/api/a20sd202/regularLeaderboard";
+    private void requestLB(String gamemode, TextView mode) {
+        RequestQueue requestLB = Volley.newRequestQueue(this);
+        String requestRegularURL = "https://studev.groept.be/api/a20sd202/leaderboard" + gamemode;
 
         JsonArrayRequest regularLBRequest = new JsonArrayRequest(Request.Method.GET, requestRegularURL, null,
-
                 response -> {
                     try {
-                        String responseString = "";
+                        StringBuilder responseString = new StringBuilder();
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject curObject = response.getJSONObject(i);
                             int place = i + 1;
-                            responseString += place + "." + "\t" + "\t" + "\t" + curObject.getInt("wpm") + "\t" + "\t" + "\t" + curObject.getString("player") + "\n";
+                            responseString.append(place).append(".").append(space(place))
+                                    .append(curObject.getInt("wpm")).append(space(curObject.getInt("wpm")))
+                                    .append(curObject.getString("player")).append("\n");
                         }
-                        regular_scores.setText(responseString);
+                        mode.setText(responseString.toString());
                     } catch (JSONException e) {
                         Log.e("Database", e.getMessage(), e);
                     }
                 },
-
-                error -> regular_scores.setText(error.getLocalizedMessage())
+                error -> mode.setText(error.getLocalizedMessage())
         );
         requestLB.add(regularLBRequest);
     }
 
-    private void requestScrambleLB() {
-        String requestScrambleURL = "https://studev.groept.be/api/a20sd202/scrambleLeaderboard";
+    private StringBuilder space(int place) {
+        StringBuilder space = new StringBuilder();
 
-        JsonArrayRequest scrambleLBRequest = new JsonArrayRequest(Request.Method.GET, requestScrambleURL, null,
+        for (int i = 0; i < 3; i++) {
+            space.append("\t");
+        }
 
-                response -> {
-                    try {
-                        String responseString = "";
-                        for (int i = 0; i < response.length(); i++) {
-                            JSONObject curObject = response.getJSONObject(i);
-                            int place = i + 1;
-                            responseString += place + "." + "\t" + "\t" + "\t" + curObject.getInt("wpm") + "\t" + "\t" + "\t" + curObject.getString("player") + "\n";
-                        }
-                        scramble_scores.setText(responseString);
-                    } catch (JSONException e) {
-                        Log.e("Database", e.getMessage(), e);
-                    }
-                },
-
-                error -> scramble_scores.setText(error.getLocalizedMessage())
-        );
-        requestLB.add(scrambleLBRequest);
+        if (place < 10) {
+            space.append("\t");
+        }
+        return space;
     }
 }

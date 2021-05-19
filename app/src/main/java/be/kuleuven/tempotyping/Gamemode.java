@@ -10,6 +10,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -23,7 +24,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class Gamemode extends AppCompatActivity {
     private TextView timer;
     private TextView toType;
+    private TextView currentWord;
     private RequestQueue requestQueue;
     private boolean regularGame;
     private EditText typeHere;
@@ -57,6 +58,7 @@ public class Gamemode extends AppCompatActivity {
         timer = findViewById(R.id.timer);
         toType = findViewById(R.id.toType);
         typeHere = findViewById(R.id.typeHere);
+        currentWord = findViewById(R.id.currentWord);
 
         typeHere.getBackground().setColorFilter(null);
         typeHere.setTextColor(Color.BLACK);
@@ -72,6 +74,8 @@ public class Gamemode extends AppCompatActivity {
         splitWords = toTypeText.split(" ");
         textIndex = 0;
         mistakes = 0;
+        currentWord.setText(splitWords[0]);
+        currentWord.setVisibility(View.VISIBLE);
 
         typeHere.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -80,6 +84,7 @@ public class Gamemode extends AppCompatActivity {
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
                     handled = true;
                     if (typeHere.getText().toString().equals(splitWords[textIndex])) {
+                        currentWord.setText(splitWords[textIndex + 1]);
                         typeHere.getBackground().setColorFilter(null);
                         typeHere.setTextColor(Color.BLACK);
                         typeHere.setText("");
@@ -142,31 +147,21 @@ public class Gamemode extends AppCompatActivity {
 
     private void requestText() {
         requestQueue = Volley.newRequestQueue(this);
-        String requestRegularURL;
-        if (regularGame) {
-            requestRegularURL = "https://studev.groept.be/api/a20sd202/randomRegularText";
-        } else {
-            requestRegularURL = "https://studev.groept.be/api/a20sd202/randomScrambleText";
-        }
+        String requestRegularURL = "https://studev.groept.be/api/a20sd202/randomText" + gamemode();
 
         JsonArrayRequest textRequest = new JsonArrayRequest(Request.Method.GET, requestRegularURL, null,
                 response -> {
                     try {
-                        String responseString = "";
+                        StringBuilder responseString = new StringBuilder();
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject curObject = response.getJSONObject(i);
-                            if (regularGame) {
-                                responseString += curObject.getString("regularText");
-                            } else {
-                                responseString += curObject.getString("scrambleText");
-                            }
+                            responseString.append(curObject.getString("text" + gamemode()));
                         }
-                        toType.setText(responseString);
+                        toType.setText(responseString.toString());
                     } catch (JSONException e) {
                         Log.e("Database", e.getMessage(), e);
                     }
                 },
-
                 error -> toType.setText(error.getLocalizedMessage())
         );
         requestQueue.add(textRequest);
@@ -188,13 +183,11 @@ public class Gamemode extends AppCompatActivity {
             if (playerName.equals("")) {
                 playerName = "guest";
             }
-            difference = (difference /1000)+1;
-            wpm = textIndex*60/ difference;
-            int accuracyPercent = 100;
-            if(mistakes+textIndex != 0) {
-                accuracyPercent = 100-(100*mistakes/(mistakes+textIndex));
-            }
+
+            calculateWPM();
+            int accuracyPercent = calculateAccuracy();
             submitScore();
+
             Intent goToSummary = new Intent(Gamemode.this, Summary.class);
             goToSummary.putExtra("WPM", wpm);
             goToSummary.putExtra("Gamemode", regularGame);
@@ -206,14 +199,21 @@ public class Gamemode extends AppCompatActivity {
         builder.show();
     }
 
-    public void submitScore() {
-        String submitScoreURL;
-        if (regularGame) {
-            submitScoreURL = "https://studev.groept.be/api/a20sd202/submitRegularScore/";
-        } else {
-            submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScrambleScore/";
+    private int calculateAccuracy() {
+        int accuracyPercent = 100;
+        if(mistakes+textIndex != 0) {
+            accuracyPercent = 100-(100*mistakes/(mistakes+textIndex));
         }
+        return accuracyPercent;
+    }
 
+    private void calculateWPM() {
+        difference = (difference / 1000) + 1;
+        wpm = textIndex*60 / difference;
+    }
+
+    public void submitScore() {
+        String submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScore/" + gamemode();
         String submitURL = submitScoreURL + wpm + "/" + playerName;
 
         StringRequest submitScore = new StringRequest(Request.Method.GET, submitURL,
@@ -224,25 +224,27 @@ public class Gamemode extends AppCompatActivity {
     }
 
     public void getID() {
-        String getIdUrl;
-        if (regularGame) {
-            getIdUrl = "https://studev.groept.be/api/a20sd202/getRegularID";
-        } else {
-            getIdUrl = "https://studev.groept.be/api/a20sd202/getScrambleID";
-        }
+        String getIdUrl = "https://studev.groept.be/api/a20sd202/getId" + gamemode();
 
         JsonArrayRequest getID = new JsonArrayRequest(Request.Method.GET, getIdUrl, null,
                 response -> {
                     try {
                         JSONObject curObject = response.getJSONObject(0);
-                        id = curObject.getLong("id")+1;
+                        id = curObject.getLong("id") + 1;
                     } catch (JSONException e) {
                         Log.e("Database", e.getMessage(), e);
                     }
                 },
-
                 error -> toType.setText(error.getLocalizedMessage())
         );
         requestQueue.add(getID);
+    }
+
+    private String gamemode() {
+        if (regularGame) {
+            return "Regular";
+        } else {
+            return "Scramble";
+        }
     }
 }

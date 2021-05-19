@@ -18,14 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Summary extends AppCompatActivity {
-    private TextView score;
     private TextView yourPlacement;
-    private RequestQueue requestQueue;
-    private long wpm;
     private boolean regularGame;
     private long id;
-    private TextView accuracy;
-    private int accuracyPercent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +28,18 @@ public class Summary extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_summary);
 
-        score = findViewById(R.id.score);
-        accuracy = findViewById(R.id.accuracy);
+        TextView score = findViewById(R.id.score);
+        TextView accuracy = findViewById(R.id.accuracy);
         yourPlacement = findViewById(R.id.placement);
 
         Bundle extras = getIntent().getExtras();
         regularGame = extras.getBoolean("Gamemode");
         id = extras.getLong("ID");
-        wpm = extras.getLong("WPM");
+
+        long wpm = extras.getLong("WPM");
         score.setText(wpm + " wpm");
-        accuracyPercent = extras.getInt("AccuracyPercent");
+
+        int accuracyPercent = extras.getInt("AccuracyPercent");
         accuracy.setText(accuracyPercent + "% accuracy");
 
         getPlacement();
@@ -60,17 +57,9 @@ public class Summary extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
-    private void getPlacement() {
-        requestQueue = Volley.newRequestQueue(this);
-        String requestURL;
-        if (regularGame) {
-            requestURL = "https://studev.groept.be/api/a20sd202/regularPlacement/";
-        } else {
-            requestURL = "https://studev.groept.be/api/a20sd202/scramblePlacement/";
-        }
-
-        String requestPlacementURL = requestURL + id;
-        System.out.println(requestPlacementURL);
+    public void getPlacement() {
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String requestPlacementURL = "https://studev.groept.be/api/a20sd202/placement" + gamemode() + "/" + id;
 
         JsonArrayRequest placementRequest = new JsonArrayRequest(Request.Method.GET, requestPlacementURL, null,
                 response -> {
@@ -82,9 +71,16 @@ public class Summary extends AppCompatActivity {
                         Log.e("Database", e.getMessage(), e);
                     }
                 },
-
                 error -> yourPlacement.setText(error.getLocalizedMessage())
         );
         requestQueue.add(placementRequest);
+    }
+
+    private String gamemode() {
+        if (regularGame) {
+            return "Regular";
+        } else {
+            return "Scramble";
+        }
     }
 }

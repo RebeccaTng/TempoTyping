@@ -87,7 +87,9 @@ public class Gamemode extends AppCompatActivity {
                         typeHere.setTextColor(Color.BLACK);
                         typeHere.setText("");
                         textIndex++;
-                        currentWord.setText(splitWords[textIndex]);
+                        if (textIndex < splitWords.length) {
+                            currentWord.setText(splitWords[textIndex]);
+                        }
                     }else{
                         typeHere.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
                         typeHere.setTextColor(Color.RED);
@@ -173,7 +175,7 @@ public class Gamemode extends AppCompatActivity {
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         InputFilter[] FilterArray = new InputFilter[1];
-        FilterArray[0] = new InputFilter.LengthFilter(6);
+        FilterArray[0] = new InputFilter.LengthFilter(7);
         input.setFilters(FilterArray);
         builder.setView(input);
 
@@ -212,8 +214,8 @@ public class Gamemode extends AppCompatActivity {
     }
 
     public void submitScore() {
-        String submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScore/" + gamemode();
-        String submitURL = submitScoreURL + wpm + "/" + playerName;
+        String submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScore" + gamemode();
+        String submitURL = submitScoreURL + "/" + wpm + "/" + playerName;
 
         StringRequest submitScore = new StringRequest(Request.Method.GET, submitURL,
                 response -> {},

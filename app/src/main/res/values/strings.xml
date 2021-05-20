@@ -22,5 +22,5 @@
     <string name="wpm">… wpm</string>
     <string name="accuracy">…% accuracy</string>
     <string name="wordToType">Word:</string>
-    <string name="dotdotdot">…</string>
+    <string name="space"> </string>
 </resources>

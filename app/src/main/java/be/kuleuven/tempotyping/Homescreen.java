@@ -24,7 +24,7 @@ public class Homescreen extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
-    public void goLeaderboards(View caller) {
+    public void goLeaderboard(View caller) {
         Intent goToLeaderboards = new Intent(this, Leaderboards.class);
         startActivity(goToLeaderboards);
         overridePendingTransition(0, 0);

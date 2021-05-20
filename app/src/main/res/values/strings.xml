@@ -21,5 +21,6 @@
     <string name="placement">#…</string>
     <string name="wpm">… wpm</string>
     <string name="accuracy">…% accuracy</string>
-    <string name="wordToType">Word to type:</string>
+    <string name="wordToType">Word:</string>
+    <string name="dotdotdot">…</string>
 </resources>

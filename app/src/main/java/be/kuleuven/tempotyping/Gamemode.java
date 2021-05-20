@@ -75,7 +75,6 @@ public class Gamemode extends AppCompatActivity {
         textIndex = 0;
         mistakes = 0;
         currentWord.setText(splitWords[0]);
-        currentWord.setVisibility(View.VISIBLE);
 
         typeHere.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -84,11 +83,11 @@ public class Gamemode extends AppCompatActivity {
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
                     handled = true;
                     if (typeHere.getText().toString().equals(splitWords[textIndex])) {
-                        currentWord.setText(splitWords[textIndex + 1]);
                         typeHere.getBackground().setColorFilter(null);
                         typeHere.setTextColor(Color.BLACK);
                         typeHere.setText("");
                         textIndex++;
+                        currentWord.setText(splitWords[textIndex]);
                     }else{
                         typeHere.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
                         typeHere.setTextColor(Color.RED);
@@ -200,7 +199,7 @@ public class Gamemode extends AppCompatActivity {
     }
 
     private int calculateAccuracy() {
-        int accuracyPercent = 100;
+        int accuracyPercent = 0;
         if(mistakes+textIndex != 0) {
             accuracyPercent = 100-(100*mistakes/(mistakes+textIndex));
         }

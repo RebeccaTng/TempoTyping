@@ -44,6 +44,7 @@
         android:background="#94FFFFFF"
         android:padding="10dp"
         android:text="@string/loading"
+        android:textColor="#403F3F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo"
@@ -56,6 +57,7 @@
         android:background="#94FFFFFF"
         android:padding="10dp"
         android:text="@string/loading"
+        android:textColor="#403F3F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/scramble_scores"
         app:layout_constraintHorizontal_bias="0.413"
@@ -68,11 +70,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/wpm_player"
+        android:textColor="#403F3F"
         app:layout_constraintBottom_toTopOf="@+id/regular_scores"
         app:layout_constraintEnd_toEndOf="@+id/regular_scores"
         app:layout_constraintStart_toStartOf="@+id/regular_scores"
         app:layout_constraintTop_toBottomOf="@+id/GM_regular"
-        app:layout_constraintVertical_bias="0.071" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/GM_scramble"
@@ -83,16 +86,17 @@
         android:text="@string/gm_scramble"
         android:textColor="#403F3F"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/scramble_scores"
+        app:layout_constraintBottom_toBottomOf="@+id/GM_regular"
         app:layout_constraintEnd_toEndOf="@+id/scramble_scores"
         app:layout_constraintStart_toStartOf="@+id/scramble_scores"
         app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo"
-        app:layout_constraintVertical_bias="0.279" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/GM_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/gm_regular"
         android:textColor="#403F3F"
@@ -101,17 +105,18 @@
         app:layout_constraintEnd_toEndOf="@+id/regular_scores"
         app:layout_constraintStart_toStartOf="@+id/regular_scores"
         app:layout_constraintTop_toBottomOf="@+id/leaderboard_logo"
-        app:layout_constraintVertical_bias="0.535" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/wpm_player1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/wpm_player"
+        android:textColor="#403F3F"
         app:layout_constraintBottom_toTopOf="@+id/scramble_scores"
         app:layout_constraintEnd_toEndOf="@+id/scramble_scores"
         app:layout_constraintStart_toStartOf="@+id/scramble_scores"
         app:layout_constraintTop_toBottomOf="@+id/GM_scramble"
-        app:layout_constraintVertical_bias="0.083" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

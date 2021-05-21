@@ -35,14 +35,13 @@ public class Summary extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         regularGame = extras.getBoolean("Gamemode");
         id = extras.getLong("ID");
+        getPlacement();
 
         long wpm = extras.getLong("WPM");
         score.setText(wpm + " wpm");
 
         int accuracyPercent = extras.getInt("AccuracyPercent");
         accuracy.setText(accuracyPercent + "% accuracy");
-
-        getPlacement();
     }
 
     public void goLeaderboard(View caller) {

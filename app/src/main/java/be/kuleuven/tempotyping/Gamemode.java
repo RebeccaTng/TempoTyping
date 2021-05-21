@@ -1,6 +1,8 @@
 package be.kuleuven.tempotyping;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -10,8 +12,10 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -115,6 +119,9 @@ public class Gamemode extends AppCompatActivity {
                 typeHere.setEnabled(true);
                 startGame();
                 upwardCounter();
+                typeHere.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(typeHere, InputMethodManager.SHOW_IMPLICIT);
             }
         }.start();
     }

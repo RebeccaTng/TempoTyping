@@ -147,7 +147,9 @@ public class Gamemode extends AppCompatActivity {
             public void onFinish() {
                 timer.setText("Finished!");
                 typeHere.setEnabled(false);
-                textDialog();
+                if (isFinishing()) {
+                    textDialog();
+                }
             }
         }.start();
     }

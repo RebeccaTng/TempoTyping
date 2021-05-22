@@ -1,9 +1,7 @@
 package be.kuleuven.tempotyping;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -13,7 +11,6 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;

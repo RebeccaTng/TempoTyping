@@ -1,5 +1,6 @@
 package be.kuleuven.tempotyping;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -147,7 +148,8 @@ public class Gamemode extends AppCompatActivity {
             public void onFinish() {
                 timer.setText("Finished!");
                 typeHere.setEnabled(false);
-                if (isFinishing()) {
+                if(!isFinishing())
+                {
                     textDialog();
                 }
             }

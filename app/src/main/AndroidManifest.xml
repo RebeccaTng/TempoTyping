@@ -10,11 +10,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TempoTyping"
         tools:ignore="AllowBackup">
-        <activity android:name=".Summary" />
-        <activity android:name=".Gamemode" />
-        <activity android:name=".Leaderboards" />
-        <activity android:name=".Play" />
-        <activity android:name=".Homescreen">
+        <activity
+            android:name=".Summary"
+            android:screenOrientation="nosensor"
+            android:configChanges="orientation"/>
+        <activity
+            android:name=".Gamemode"
+            android:screenOrientation="nosensor"
+            android:configChanges="orientation"/>
+        <activity
+            android:name=".Leaderboards"
+            android:screenOrientation="nosensor"
+            android:configChanges="orientation"/>
+        <activity
+            android:name=".Play"
+            android:screenOrientation="nosensor"
+            android:configChanges="orientation"/>
+        <activity
+            android:name=".Homescreen"
+            android:screenOrientation="nosensor"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

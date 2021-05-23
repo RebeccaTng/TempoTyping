@@ -10,7 +10,6 @@ import android.os.CountDownTimer;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -69,39 +68,6 @@ public class Gamemode extends AppCompatActivity {
         downwardCounter();
     }
 
-    public void startGame()
-    {
-        String toTypeText = toType.getText().toString();
-        splitWords = toTypeText.split(" ");
-        textIndex = 0;
-        mistakes = 0;
-        currentWord.setText(splitWords[0]);
-
-        typeHere.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    handled = true;
-                    if (typeHere.getText().toString().equals(splitWords[textIndex])) {
-                        typeHere.getBackground().setColorFilter(null);
-                        typeHere.setTextColor(Color.BLACK);
-                        typeHere.setText("");
-                        textIndex++;
-                        if (textIndex < splitWords.length) {
-                            currentWord.setText(splitWords[textIndex]);
-                        }
-                    }else{
-                        typeHere.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
-                        typeHere.setTextColor(Color.RED);
-                        mistakes++;
-                    }
-                }
-                return handled;
-            }
-        });
-    }
-
     public void downwardCounter()
     {
         long duration = 6000;
@@ -122,6 +88,36 @@ public class Gamemode extends AppCompatActivity {
                 imm.showSoftInput(typeHere, InputMethodManager.SHOW_IMPLICIT);
             }
         }.start();
+    }
+
+    public void startGame()
+    {
+        String toTypeText = toType.getText().toString();
+        splitWords = toTypeText.split(" ");
+        textIndex = 0;
+        mistakes = 0;
+        currentWord.setText(splitWords[0]);
+
+        typeHere.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                handled = true;
+                if (typeHere.getText().toString().equals(splitWords[textIndex])) {
+                    typeHere.getBackground().setColorFilter(null);
+                    typeHere.setTextColor(Color.BLACK);
+                    typeHere.setText("");
+                    textIndex++;
+                    if (textIndex < splitWords.length) {
+                        currentWord.setText(splitWords[textIndex]);
+                    }
+                }else{
+                    typeHere.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                    typeHere.setTextColor(Color.RED);
+                    mistakes++;
+                }
+            }
+            return handled;
+        });
     }
 
     public void upwardCounter()

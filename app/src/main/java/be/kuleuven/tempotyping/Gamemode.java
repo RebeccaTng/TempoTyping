@@ -233,11 +233,16 @@ public class Gamemode extends AppCompatActivity {
         JsonArrayRequest getID = new JsonArrayRequest(Request.Method.GET, getIdUrl, null,
                 response -> {
                     try {
-                        JSONObject curObject = response.getJSONObject(0);
-                        id = curObject.getLong("id") + 1;
+                        if (!(response.length() == 0)) {
+                            JSONObject curObject = response.getJSONObject(0);
+                            id = curObject.getLong("id") + 1;
+                        } else {
+                            id = 1;
+                        }
                     } catch (JSONException e) {
                         Log.e("Database", e.getMessage(), e);
                     }
+                    System.out.println(id);
                 },
                 error -> toType.setText(error.getLocalizedMessage())
         );

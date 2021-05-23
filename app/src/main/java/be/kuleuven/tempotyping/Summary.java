@@ -59,6 +59,7 @@ public class Summary extends AppCompatActivity {
     public void getPlacement() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String requestPlacementURL = "https://studev.groept.be/api/a20sd202/placement" + gamemode() + "/" + id;
+        System.out.println(id);
 
         JsonArrayRequest placementRequest = new JsonArrayRequest(Request.Method.GET, requestPlacementURL, null,
                 response -> {

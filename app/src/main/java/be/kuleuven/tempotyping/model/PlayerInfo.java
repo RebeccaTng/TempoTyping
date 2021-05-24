@@ -71,11 +71,11 @@ public class PlayerInfo implements Parcelable {
         return regularGame;
     }
 
-    public long getWpm() {
-        return wpm;
+    public String getWpm() {
+        return (wpm + " wpm");
     }
 
-    public int getAccuracy() {
-        return accuracy;
+    public String getAccuracy() {
+        return (accuracy + "% accuracy");
     }
 }

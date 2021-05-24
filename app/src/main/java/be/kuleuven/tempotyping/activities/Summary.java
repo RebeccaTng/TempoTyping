@@ -37,8 +37,8 @@ public class Summary extends AppCompatActivity {
         playerInfo = getIntent().getExtras().getParcelable("PlayerInfo");
         getPlacement();
 
-        score.setText(playerInfo.getWpm() + " wpm");
-        accuracy.setText(playerInfo.getAccuracy() + "% accuracy");
+        score.setText(playerInfo.getWpm());
+        accuracy.setText(playerInfo.getAccuracy());
     }
 
     public void goLeaderboard(View caller) {

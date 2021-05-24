@@ -1,4 +1,4 @@
-package be.kuleuven.tempotyping;
+package be.kuleuven.tempotyping.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+
+import be.kuleuven.tempotyping.R;
+import be.kuleuven.tempotyping.model.PlayerInfo;
 
 public class Play extends AppCompatActivity {
 
@@ -30,8 +33,9 @@ public class Play extends AppCompatActivity {
             default:
                 throw new RuntimeException("Unknow button ID");
         }
+        PlayerInfo gamemodeInfo = new PlayerInfo(regularGame);
         Intent goToGamemode = new Intent(this, Gamemode.class);
-        goToGamemode.putExtra("Gamemode", regularGame);
+        goToGamemode.putExtra("GamemodeInfo", gamemodeInfo);
         startActivity(goToGamemode);
         overridePendingTransition(0, 0);
     }

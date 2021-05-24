@@ -1,4 +1,4 @@
-package be.kuleuven.tempotyping;
+package be.kuleuven.tempotyping.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +16,8 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import be.kuleuven.tempotyping.R;
 
 public class Leaderboards extends AppCompatActivity {
 

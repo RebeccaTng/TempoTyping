@@ -1,4 +1,4 @@
-package be.kuleuven.tempotyping;
+package be.kuleuven.tempotyping.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,10 +17,12 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import be.kuleuven.tempotyping.R;
+import be.kuleuven.tempotyping.model.PlayerInfo;
+
 public class Summary extends AppCompatActivity {
     private TextView yourPlacement;
-    private boolean regularGame;
-    private long id;
+    private PlayerInfo playerInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +34,11 @@ public class Summary extends AppCompatActivity {
         TextView accuracy = findViewById(R.id.accuracy);
         yourPlacement = findViewById(R.id.placement);
 
-        Bundle extras = getIntent().getExtras();
-        regularGame = extras.getBoolean("Gamemode");
-        id = extras.getLong("ID");
+        playerInfo = getIntent().getExtras().getParcelable("PlayerInfo");
         getPlacement();
 
-        long wpm = extras.getLong("WPM");
-        score.setText(wpm + " wpm");
-
-        int accuracyPercent = extras.getInt("AccuracyPercent");
-        accuracy.setText(accuracyPercent + "% accuracy");
+        score.setText(playerInfo.getWpm() + " wpm");
+        accuracy.setText(playerInfo.getAccuracy() + "% accuracy");
     }
 
     public void goLeaderboard(View caller) {
@@ -58,8 +55,7 @@ public class Summary extends AppCompatActivity {
 
     public void getPlacement() {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String requestPlacementURL = "https://studev.groept.be/api/a20sd202/placement" + gamemode() + "/" + id;
-        System.out.println(id);
+        String requestPlacementURL = "https://studev.groept.be/api/a20sd202/placement" + playerInfo.placementURL();
 
         JsonArrayRequest placementRequest = new JsonArrayRequest(Request.Method.GET, requestPlacementURL, null,
                 response -> {
@@ -74,13 +70,5 @@ public class Summary extends AppCompatActivity {
                 error -> yourPlacement.setText(error.getLocalizedMessage())
         );
         requestQueue.add(placementRequest);
-    }
-
-    private String gamemode() {
-        if (regularGame) {
-            return "Regular";
-        } else {
-            return "Scramble";
-        }
     }
 }

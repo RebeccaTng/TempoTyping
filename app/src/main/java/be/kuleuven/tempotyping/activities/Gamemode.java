@@ -1,4 +1,4 @@
-package be.kuleuven.tempotyping;
+package be.kuleuven.tempotyping.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,12 +30,14 @@ import org.json.JSONObject;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import be.kuleuven.tempotyping.R;
+import be.kuleuven.tempotyping.model.PlayerInfo;
+
 public class Gamemode extends AppCompatActivity {
     private TextView timer;
     private TextView toType;
     private TextView currentWord;
     private RequestQueue requestQueue;
-    private boolean regularGame;
     private EditText typeHere;
     private long difference;
     private String playerName;
@@ -44,6 +46,7 @@ public class Gamemode extends AppCompatActivity {
     private String[] splitWords;
     private int mistakes;
     private long id;
+    private PlayerInfo gamemodeInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +55,7 @@ public class Gamemode extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_gamemode);
 
-        Bundle extras = getIntent().getExtras();
-        regularGame = extras.getBoolean("Gamemode");
+        gamemodeInfo = getIntent().getExtras().getParcelable("GamemodeInfo");
 
         timer = findViewById(R.id.timer);
         toType = findViewById(R.id.toType);
@@ -151,7 +153,7 @@ public class Gamemode extends AppCompatActivity {
 
     private void requestText() {
         requestQueue = Volley.newRequestQueue(this);
-        String requestRegularURL = "https://studev.groept.be/api/a20sd202/randomText" + gamemode();
+        String requestRegularURL = "https://studev.groept.be/api/a20sd202/randomText" + gamemodeInfo.gamemode();
 
         JsonArrayRequest textRequest = new JsonArrayRequest(Request.Method.GET, requestRegularURL, null,
                 response -> {
@@ -159,7 +161,7 @@ public class Gamemode extends AppCompatActivity {
                         StringBuilder responseString = new StringBuilder();
                         for (int i = 0; i < response.length(); i++) {
                             JSONObject curObject = response.getJSONObject(i);
-                            responseString.append(curObject.getString("text" + gamemode()));
+                            responseString.append(curObject.getString("text" + gamemodeInfo.gamemode()));
                         }
                         toType.setText(responseString.toString());
                     } catch (JSONException e) {
@@ -192,11 +194,10 @@ public class Gamemode extends AppCompatActivity {
             int accuracyPercent = calculateAccuracy();
             submitScore();
 
+            PlayerInfo playerInfo = new PlayerInfo(gamemodeInfo.isRegularGame(), id, wpm, accuracyPercent);
+
             Intent goToSummary = new Intent(Gamemode.this, Summary.class);
-            goToSummary.putExtra("WPM", wpm);
-            goToSummary.putExtra("Gamemode", regularGame);
-            goToSummary.putExtra("ID", id);
-            goToSummary.putExtra("AccuracyPercent", accuracyPercent);
+            goToSummary.putExtra("PlayerInfo", playerInfo);
             startActivity(goToSummary);
             overridePendingTransition(0, 0);
         });
@@ -217,7 +218,7 @@ public class Gamemode extends AppCompatActivity {
     }
 
     public void submitScore() {
-        String submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScore" + gamemode();
+        String submitScoreURL = "https://studev.groept.be/api/a20sd202/submitScore" + gamemodeInfo.gamemode();
         String submitURL = submitScoreURL + "/" + wpm + "/" + playerName;
 
         StringRequest submitScore = new StringRequest(Request.Method.GET, submitURL,
@@ -228,7 +229,7 @@ public class Gamemode extends AppCompatActivity {
     }
 
     public void getID() {
-        String getIdUrl = "https://studev.groept.be/api/a20sd202/getId" + gamemode();
+        String getIdUrl = "https://studev.groept.be/api/a20sd202/getId" + gamemodeInfo.gamemode();
 
         JsonArrayRequest getID = new JsonArrayRequest(Request.Method.GET, getIdUrl, null,
                 response -> {
@@ -242,18 +243,9 @@ public class Gamemode extends AppCompatActivity {
                     } catch (JSONException e) {
                         Log.e("Database", e.getMessage(), e);
                     }
-                    System.out.println(id);
                 },
                 error -> toType.setText(error.getLocalizedMessage())
         );
         requestQueue.add(getID);
-    }
-
-    private String gamemode() {
-        if (regularGame) {
-            return "Regular";
-        } else {
-            return "Scramble";
-        }
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tempotyping_background"
-    tools:context=".Gamemode">
+    tools:context=".activities.Gamemode">
 
     <TextView
         android:id="@+id/toType"

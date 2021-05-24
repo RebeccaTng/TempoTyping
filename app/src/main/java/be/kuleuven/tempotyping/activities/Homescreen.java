@@ -1,4 +1,4 @@
-package be.kuleuven.tempotyping;
+package be.kuleuven.tempotyping.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+
+import be.kuleuven.tempotyping.R;
 
 public class Homescreen extends AppCompatActivity {
 

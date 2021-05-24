@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tempotyping_background"
-    tools:context=".Homescreen">
+    tools:context=".activities.Homescreen">
 
     <Button
         android:id="@+id/play"

@@ -1,4 +1,5 @@
 # TempoTyping
+## Table of contents
 - [Context](#context)
 - [Description](#description)
 ___
